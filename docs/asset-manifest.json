@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/kadai_05_Map/static/css/main.46a7b135.css",
-    "main.js": "/kadai_05_Map/static/js/main.9b6ad811.js",
-    "static/js/453.595686f5.chunk.js": "/kadai_05_Map/static/js/453.595686f5.chunk.js",
-    "index.html": "/kadai_05_Map/index.html",
-    "main.46a7b135.css.map": "/kadai_05_Map/static/css/main.46a7b135.css.map",
-    "main.9b6ad811.js.map": "/kadai_05_Map/static/js/main.9b6ad811.js.map",
-    "453.595686f5.chunk.js.map": "/kadai_05_Map/static/js/453.595686f5.chunk.js.map"
+    "main.css": "/mapApp/static/css/main.46a7b135.css",
+    "main.js": "/mapApp/static/js/main.d10812c5.js",
+    "static/js/453.595686f5.chunk.js": "/mapApp/static/js/453.595686f5.chunk.js",
+    "index.html": "/mapApp/index.html",
+    "main.46a7b135.css.map": "/mapApp/static/css/main.46a7b135.css.map",
+    "main.d10812c5.js.map": "/mapApp/static/js/main.d10812c5.js.map",
+    "453.595686f5.chunk.js.map": "/mapApp/static/js/453.595686f5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.46a7b135.css",
-    "static/js/main.9b6ad811.js"
+    "static/js/main.d10812c5.js"
   ]
 }
