@@ -1,9 +1,182 @@
-  {pin ? ( <Marker
-                position={pin.location}
-                icon={{
-                  url: "pinsmall.svg",
-                  origin: new window.google.maps.Point(0, 0),
-                  anchor: new window.google.maps.Point(15, 15),
-                  scaledSize: new window.google.maps.Size(30, 30),
-                }}
-                />) : null}
+import {
+  GoogleMap,
+  InfoWindow,
+  LoadScript,
+  Marker,
+  MarkerClusterer,
+} from "@react-google-maps/api";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { mapStyleBase } from "../mapUtils/mapStyleBase";
+import { mapStylesOnlyRoad } from "../mapUtils/mapStylesOnlyRoad";
+
+const Map = forwardRef(({ postVal }, ref) => {
+  const defaultLatLng = {
+    lat: 35.658584,
+    lng: 139.745433,
+
+    //地図の真ん中に表示させたい場所の緯度、経度を連数配列に
+  };
+
+  const markerRef = useRef(null);
+
+  const [pin, setPin] = useState(null);
+  const [markers, setMarkers] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const [mapStyle, setMapStyle] = useState(mapStyleBase);
+
+  const [centerPoint, setCenterPoint] = useState(defaultLatLng);
+
+
+
+  const containerStyle = {
+    width: "400px",
+    height: "400px",
+
+    //mapContainerStyleイベントでしかサイズ変更できない(多分)
+  };
+
+  const mapOptions = {
+    styles: mapStyle,
+    disableDefaultUI: true,
+    // デフォルトUI（衛星写真オプションなど）をキャンセル
+    zoomControl: true,
+  };
+
+
+  //クリックイベント座標取得 ピン設置
+  function handleMapClick(e) {
+    const newMarker = {
+      info: postVal,
+      location: {
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
+      },
+    };
+    setPin(newMarker);
+  }
+
+  useEffect(()=>{
+    if(pin){
+      if(postVal != ''){
+      pin.info = postVal;
+      console.log(pin.info);
+    }
+    }
+  },[postVal])
+
+  //投稿機能 refで<Ui>と連携
+  useImperativeHandle(ref, () => ({
+    posting() {
+      console.log(pin.info)
+      setMarkers([...markers, pin]);
+      setCenterPoint(pin.location);
+      setPin([]);
+    },
+  }));
+
+  //地図変更
+  function mapChangeToggle(){
+    mapStyle === mapStyleBase ? setMapStyle(mapStylesOnlyRoad) : setMapStyle(mapStyleBase);
+  }
+
+
+
+// === CustomMarkerClusterer ===
+  const clusterStyles = [
+    {
+      textColor: "white",
+      url: "logo512.png",
+      height: 50,
+      width: 50,
+    },
+    {
+      textColor: "white",
+      url: "logo512.png",
+      height: 50,
+      width: 50,
+    },
+    {
+      textColor: "white",
+      url: "logo512.png",
+      height: 50,
+      width: 50,
+    },
+  ];
+
+  const options = {
+    gridSize: 50, //小さいほど細かくクラスター化される
+    styles: clusterStyles,
+    maxZoom: 5, //クラスター化が行われる最大のズームレベルこの値を超えると、個別のマーカーが表示される
+  };
+
+  return (
+    <>
+      <LoadScript googleMapsApiKey={process.env.REACT_APP_APIKEY}>
+        <GoogleMap
+          options={mapOptions}
+          center={centerPoint}
+          zoom={8} //zoomでデフォルトで表示される地図の範囲を指定します。大きいほどズーム
+          mapContainerStyle={containerStyle} //地図サイズ読み込み
+          onClick={handleMapClick} //地図クリックでマーカー追加
+        >
+
+          <MarkerClusterer options={options}>
+            {
+              clusterer =>
+              markers &&
+              markers.map((marker) => (
+                <Marker
+                  key={`${marker.location.lat * marker.location.lng}`} //座標の積をkeyに設定
+                  //  clusterer={clusterer}
+                  position={marker.location}
+                  onClick={() => {
+                    setSelected(marker);
+                    console.log(selected);
+                  }}
+                  icon={{
+                    url: "pin1.svg",
+                    origin: new window.google.maps.Point(0, 0),
+                    anchor: new window.google.maps.Point(15, 15),
+                    scaledSize: new window.google.maps.Size(30, 30),
+                  }}
+                  ref={markerRef}
+                  // label={marker.info}
+                  animation={window.google.maps.Animation.DROP}
+                ></Marker>
+              ))
+            }
+          </MarkerClusterer>
+          {selected ? (
+            <InfoWindow
+              position={{
+                lat: selected.location.lat,
+                lng: selected.location.lng,
+              }}
+              onCloseClick={() => {
+                setSelected(null);
+              }}
+            >
+              <div>{selected.info}</div>
+            </InfoWindow>
+          ) : null}
+          ;
+          {pin ? (<Marker
+            position={pin.location}
+            icon={{
+              url: "pinsmall.svg",
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+              scaledSize: new window.google.maps.Size(30, 30),
+            }}
+          />): null}
+        </GoogleMap>
+      </LoadScript>
+      <button className=" block shadow-black/80 shadow-md  w-auto mx-auto hover:opacity-70 transition active:translate-y-1 active:shadow-none active:opacity-40  py-2 px-4 right-0 left-0  border rounded-3xl bg-yellow-500 mt-4"
+      onClick={mapChangeToggle}
+      
+      >map切り替え</button>
+    </>
+  );
+});
+
+export default Map;

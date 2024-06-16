@@ -45,7 +45,7 @@ const Map = () => {
   // CustomMarkerClusterer
   const clusterStyles = [
     {
-      textColor: "white",
+      textColor: "black",
       url: "logo512.png",
       height: 50,
       width: 50,
@@ -82,11 +82,12 @@ const Map = () => {
           onClick={handleMapClick} //地図クリックでマーカー追加
         >
           <MarkerClusterer options = {options}>
-           {(clusterer)=>//レンダリング関数
+           {clusterer=>//レンダリング関数
              markers && markers.map((marker) =>  <Marker
              key = {`${marker.location.lat * marker.location.lng}`} //座標の積をkeyに設定
             //  clusterer={clusterer}
              position={{lat: marker.location.lat, lng: marker.location.lng}} 
+             clusterer={clusterer}
              icon={{
               url: 'pin1.svg',
               origin: new window.google.maps.Point(0, 0),

@@ -67,7 +67,6 @@ const Map = forwardRef(({ postVal }, ref) => {
   //投稿機能 refで<Ui>と連携
   useImperativeHandle(ref, () => ({
     posting() {
-      console.log(pin.info)
       setMarkers([...markers, pin]);
       setCenterPoint(pin.location);
       setPin([]);
@@ -121,15 +120,14 @@ const Map = forwardRef(({ postVal }, ref) => {
         >
 
           <MarkerClusterer options={options}>
-            {(
-              clusterer //レンダリング関数
-            ) =>
+            {
+              clusterer =>
               markers &&
               markers.map((marker) => (
                 <Marker
                   key={`${marker.location.lat * marker.location.lng}`} //座標の積をkeyに設定
-                  //  clusterer={clusterer}
                   position={marker.location}
+                  // clusterer={clusterer}
                   onClick={() => {
                     setSelected(marker);
                     console.log(selected);
