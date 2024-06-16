@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/mapApp/static/css/main.46a7b135.css",
-    "main.js": "/mapApp/static/js/main.d10812c5.js",
-    "static/js/453.595686f5.chunk.js": "/mapApp/static/js/453.595686f5.chunk.js",
-    "index.html": "/mapApp/index.html",
-    "main.46a7b135.css.map": "/mapApp/static/css/main.46a7b135.css.map",
-    "main.d10812c5.js.map": "/mapApp/static/js/main.d10812c5.js.map",
-    "453.595686f5.chunk.js.map": "/mapApp/static/js/453.595686f5.chunk.js.map"
+    "main.css": "/mapPin/static/css/main.46a7b135.css",
+    "main.js": "/mapPin/static/js/main.f62f1d41.js",
+    "static/js/453.595686f5.chunk.js": "/mapPin/static/js/453.595686f5.chunk.js",
+    "index.html": "/mapPin/index.html",
+    "main.46a7b135.css.map": "/mapPin/static/css/main.46a7b135.css.map",
+    "main.f62f1d41.js.map": "/mapPin/static/js/main.f62f1d41.js.map",
+    "453.595686f5.chunk.js.map": "/mapPin/static/js/453.595686f5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.46a7b135.css",
-    "static/js/main.d10812c5.js"
+    "static/js/main.f62f1d41.js"
   ]
 }
